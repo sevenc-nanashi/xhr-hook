@@ -211,8 +211,8 @@ function patchGetter<T, P extends keyof T>(
     },
   });
 }
-type ParametersOrNever<T> = T extends (...args: infer P) => any ? P : never;
-type ReturnTypeOrNever<T> = T extends (...args: any[]) => infer R ? R : never;
+type ParametersOrNever<T> = T extends (...args: infer P) => unknown ? P : never;
+type ReturnTypeOrNever<T> = T extends (...args: never[]) => infer R ? R : never;
 
 function patchMethod<T, P extends keyof T>(
   obj: T,
@@ -271,7 +271,7 @@ async function startXhrWithResponseCallback(
     xhr.dispatchEvent(new Event("loadstart"));
     const buffer = new Uint8Array(
       response.headers.get("Content-Length")
-        ? parseInt(response.headers.get("Content-Length")!, 10)
+        ? parseInt(ensureNotNullish(response.headers.get("Content-Length")), 10)
         : 1024 * 1024,
     );
     let offset = 0;
@@ -372,4 +372,11 @@ export function removeXhrHook(name: string): boolean {
     logger.warn(`Hook with name "${name}" does not exist, ignoring remove.`);
     return false;
   }
+}
+
+function ensureNotNullish<T>(value: T | null | undefined, message?: string): T {
+  if (value === null || value === undefined) {
+    throw new Error(message ?? "Value is null or undefined");
+  }
+  return value;
 }

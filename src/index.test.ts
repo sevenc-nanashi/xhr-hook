@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { insertXhrHook, removeXhrHook, setLogger } from "./index";
 
 describe("xhr-hook", () => {
@@ -10,7 +10,7 @@ describe("xhr-hook", () => {
     // A better approach would be to have a way to clear all hooks.
     try {
       removeXhrHook("test");
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
   });
@@ -317,15 +317,14 @@ describe("xhr-hook", () => {
   });
 
   it("should abort the request", async () => {
-    let aborted = false;
+    const { promise, resolve } = promiseWithResolvers<void>();
     const hook = (_xhr: Request) => {
-      return (abort: AbortSignal) => {
-        return new Promise<Response>((_resolve, reject) => {
-          abort.addEventListener("abort", () => {
-            aborted = true;
-            reject(new DOMException("Aborted", "AbortError"));
-          });
+      return async (abort: AbortSignal) => {
+        abort.addEventListener("abort", () => {
+          resolve();
         });
+
+        return new Response("This will not be used");
       };
     };
 
@@ -333,17 +332,23 @@ describe("xhr-hook", () => {
 
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "https://example.com");
-
-    let error: any;
-    xhr.onerror = (e) => {
-      error = e;
-    };
-
     xhr.send();
     xhr.abort();
 
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    expect(aborted).toBe(true);
+    await promise;
   });
 });
+
+function promiseWithResolvers<T>() {
+  let resolve: ((value: T | PromiseLike<T>) => void) | undefined;
+  let reject: ((reason?: unknown) => void) | undefined;
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+
+  if (!resolve || !reject) {
+    throw new Error("Failed to create promise with resolvers");
+  }
+  return { promise, resolve, reject };
+}
