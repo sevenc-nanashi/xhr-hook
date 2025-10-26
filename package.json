@@ -1,7 +1,7 @@
 {
   "name": "@sevenc-nanashi/xhr-hook",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A library to hook into XMLHttpRequest for extensions or user scripts.",
   "license": "MIT",
   "repository": {
