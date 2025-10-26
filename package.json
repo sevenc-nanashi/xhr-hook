@@ -6,15 +6,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sevenc-nanashi/xhr-hook.git"
+    "url": "git+https://github.com/sevenc-nanashi/xhr-hook.git"
   },
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
   "scripts": {
@@ -23,7 +23,7 @@
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "postinstall": "playwright install",
-    "lint": "biome check",
+    "lint": "biome check && publint",
     "lint:fix": "biome check --write"
   },
   "keywords": [],
@@ -35,6 +35,7 @@
     "mock-xmlhttprequest": "^8.4.1",
     "pkgroll": "^2.15.3",
     "playwright": "^1.56.1",
+    "publint": "^0.3.15",
     "typescript": "^5.9.3",
     "vitest": "^4.0.3"
   }
