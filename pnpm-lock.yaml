@@ -22,10 +22,13 @@ importers:
         version: 8.4.1
       pkgroll:
         specifier: ^2.15.3
-        version: 2.15.3
+        version: 2.15.3(typescript@5.9.3)
       playwright:
         specifier: ^1.56.1
         version: 1.56.1
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
       vitest:
         specifier: ^4.0.3
         version: 4.0.3(@vitest/browser-playwright@4.0.3)
@@ -752,6 +755,11 @@ packages:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
 
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   vite@7.1.12:
     resolution: {integrity: sha512-ZWyE8YXEXqJrrSLvYgrRP7p62OziLW7xI5HYGWFzOvupfAlrLvURSzv/FyGyy0eidogEM3ujU+kUG1zuHgb6Ug==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1332,7 +1340,7 @@ snapshots:
     dependencies:
       pngjs: 7.0.0
 
-  pkgroll@2.15.3:
+  pkgroll@2.15.3(typescript@5.9.3):
     dependencies:
       '@rollup/plugin-alias': 5.1.1(rollup@4.46.2)
       '@rollup/plugin-commonjs': 28.0.6(rollup@4.46.2)
@@ -1346,6 +1354,8 @@ snapshots:
       magic-string: 0.30.17
       rollup: 4.46.2
       rollup-pluginutils: 2.8.2
+    optionalDependencies:
+      typescript: 5.9.3
 
   playwright-core@1.56.1: {}
 
@@ -1439,6 +1449,8 @@ snapshots:
       is-number: 7.0.0
 
   totalist@3.0.1: {}
+
+  typescript@5.9.3: {}
 
   vite@7.1.12:
     dependencies:
