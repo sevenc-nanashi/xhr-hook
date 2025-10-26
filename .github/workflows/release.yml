@@ -47,7 +47,7 @@ jobs:
 
       - name: Publish to npm
         run: |
-          pnpm publish --access public
+          pnpm publish --access public --provenance
 
       - name: Push Tag
         run: |
