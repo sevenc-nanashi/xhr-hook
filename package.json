@@ -19,11 +19,11 @@
   },
   "scripts": {
     "build": "pkgroll",
-    "prepack": "npm run build",
+    "prepack": "npm run build && publint",
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "postinstall": "playwright install",
-    "lint": "biome check && publint",
+    "lint": "biome check",
     "lint:fix": "biome check --write"
   },
   "keywords": [],
